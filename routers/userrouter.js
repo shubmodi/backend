@@ -29,21 +29,59 @@ router.post('/add',(req,res)=> {
 //delete
 
 router.get('/getall',(req,res)=> {
-    res.send('Request from user getall')
+    Model.find()
+    .then((result) => {
+        res.status(200).json(result);
+    }).catch((err)=>{
+        console.log(err);
+        res.status(500).json(err);
+        
+    })
 })
+
+    router.get('/getbyemail/:email',(req,res)=>{
+        Model.findOne({email : req.params.email})
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err)=>{
+            console.log(err);
+            res.status(500).json(err);
+        })  
+    })
+    router.get('/getbycity/:city',(req,res)=>{
+        Model.findOne({city : req.params.city})
+        .then((result) => {
+            res.status(200).json(result);
+        }).catch((err)=>{
+            console.log(err);
+            res.status(500).json(err);
+        })  
+    })
+
 // ':' denotes url parameter
 router.get('/getbyid/:id',(req,res)=> {
-    console.log(req.params.id);
+    Model.findById(req.params.id)
+    .then((result) => {
+        res.status(200).json(result);
+    }).catch((err)=>{
+        console.log(err);
+        res.status(500).json(err);
+    })  
     
-    res.send('Request from user getall')
 })
 
 router.get('/update',(req,res)=> {
     res.send('Request from user getall')
 })
 
-router.get('/delete',(req,res)=> {
-    res.send('Request from user getall')
+router.delete('/delete/:id',(req,res)=> {
+    Model.findByIdAndDelete(req.params.id)
+    .then((result) => {
+        res.status(200).json(result);
+    }).catch((err)=>{
+        console.log(err);
+        res.status(500).json(err);
+    })  
 })
 
 module.exports =router;
